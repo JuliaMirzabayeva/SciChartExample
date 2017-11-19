@@ -24,6 +24,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import myapp.scichartexample.App;
+import myapp.scichartexample.Constants;
 import myapp.scichartexample.Models.Point;
 import myapp.scichartexample.R;
 import myapp.scichartexample.Services.PointsGeneratorService;
@@ -31,10 +32,6 @@ import myapp.scichartexample.Services.PointsGeneratorService;
 public class MainActivity extends AppCompatActivity {
     @Inject
     public PointsGeneratorService pointsGeneratorService;
-
-    public final static String BROADCAST_ACTION = "generate_random_double";
-    public final static String RANDOM_POINT_RATE = "random_point_rate";
-    public final static String RANDOM_POINT_DATE = "random_point_date";
 
     private BroadcastReceiver broadcastReceiver;
     private Point point = new Point();
@@ -65,14 +62,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                if (action.equals(BROADCAST_ACTION)) {
-                    point.setRate(intent.getDoubleExtra(RANDOM_POINT_RATE, 0));
-                    point.setDate(new Date(intent.getLongExtra(RANDOM_POINT_DATE, 0)));
+                if (action.equals(Constants.BROADCAST_ACTION)) {
+                    point.setRate(intent.getDoubleExtra(Constants.POINT_RATE, 0));
+                    point.setDate(new Date(intent.getLongExtra(Constants.POINT_DATE, 0)));
                     draw(point);
                 }
             }
         };
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
+        IntentFilter intentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
         registerReceiver(broadcastReceiver, intentFilter);
 
        // Create a numeric X axis
